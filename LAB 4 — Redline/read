@@ -1,0 +1,25 @@
+LAB 4 — Redline | CyberDefenders | Memory Forensics | Easy
+Scenario
+IDS alerted suspicious behavior on a workstation. Memory dump analyzed to trace malware actions and identify how attacker bypassed NIDS.
+Malware Identified: oneetx.exe
+
+Identified via windows.pslist — meaningless process name, ran multiple instances
+PID 5896, PPID 8844 (parent already terminated — dropper cleaned itself up)
+Wow64 = True — 32-bit process on 64-bit system, common malware technique
+Spawned rundll32.exe as child process to execute malicious code
+
+Memory Analysis
+
+windows.malfind revealed PAGE_EXECUTE_READWRITE protection on oneetx.exe
+MZ header found inside memory — confirmed process injection (fileless execution)
+Hidden executable running inside oneetx.exe's memory space
+
+VPN Bypass
+
+Attacker installed Outline.exe — a legitimate VPN application
+Outline.exe spawned tun2socks.exe to create network tunnel
+This tunneled all traffic hiding it from NIDS detection
+Attacker IP: 77.91.124.20
+
+Tools Used: Volatility 3, windows.pslist, windows.netscan, windows.malfind
+Concepts Learned: Process injection, MZ header detection, PAGE_EXECUTE_READWRITE, VPN bypass of NIDS, parent-child process relationships, Wow64
