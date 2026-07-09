@@ -23,3 +23,5 @@ Attacker IP: 77.91.124.20
 
 Tools Used: Volatility 3, windows.pslist, windows.netscan, windows.malfind
 Concepts Learned: Process injection, MZ header detection, PAGE_EXECUTE_READWRITE, VPN bypass of NIDS, parent-child process relationships, Wow64
+
+Lab Loc: https://cyberdefenders.org/blueteam-ctf-challenges/reveal/
