@@ -1,0 +1,29 @@
+LAB 6 — PoisonedCredentials | CyberDefenders | Network Forensics | Easy
+
+Scenario: A workstation on the cybercactus.local domain attempted to access a mistyped network share, triggering broadcast name resolution. 
+Attacker exploited this fallback to spoof the share and harvest NTLM credentials. 
+PCAP analyzed to identify the rogue host and assess credential exposure.
+
+Attack Chain
+Victim (192.168.232.162) attempts to resolve fileshaare (mistyped share name) → DNS lookup fails → 
+falls back to LLMNR/NBT-NS/MDNS broadcast → Attacker (192.168.232.215) responds to broadcast, spoofing itself as fileshaare → 
+Victim authenticates to rogue host via SMB2/NTLM, exposing credentials — MITRE ATT&CK T1557.001 (LLMNR/NBT-NS Poisoning)
+Network Indicators
+
+Rogue machine: 192.168.232.215
+Victim workstation: 192.168.232.162 (hostname: ACCOUNTING-PC)
+Compromised domain: cybercactus.local
+Compromised account: janesmith
+Protocols abused: LLMNR, NBT-NS, MDNS
+
+Delivery method: broadcast name-resolution spoofing → SMB2 NTLM Session Setup (Negotiate → Challenge → Authenticate)
+Attack Technique: LLMNR/NBT-NS Poisoning (Responder-style)
+Identified via Wireshark protocol/response analysis
+Credential theft technique targeting Windows' legacy broadcast name resolution fallback
+No malware payload involved — pure network spoofing/credential interception
+Confirms attacker was actively listening on the local segment (adjacent-network position)
+
+Tools Used: Wireshark, display filters (llmnr, mdns, nbns, smb2, ntlmssp.auth.username, ntlmssp.auth.hostname)
+Concepts Learned: LLMNR/NBT-NS broadcast fallback mechanics, query-vs-response pivoting for attacker identification, NTLM 3-message handshake (Negotiate/Challenge/Authenticate), NTLMSSP field extraction (username/domain/hostname), credential harvesting via name-resolution spoofing
+
+LAB LOCATION: https://cyberdefenders.org/blueteam-ctf-challenges/poisonedcredentials/
