@@ -1,0 +1,27 @@
+LAB 7 — WebStrike | CyberDefenders | Network Forensics | Easy
+
+Scenario: An e-commerce web server (shoporoma.com) was compromised through a file upload vulnerability, 
+granting the attacker remote code execution via a reverse shell.
+
+Attack Chain
+
+Attacker (117.11.88.124) performs recon via HTTP GET on shoporoma.com → 
+uploads malicious file image.jpg.php via /reviews/upload.php (double-extension bypass, Content-Type: application/x-php) → 
+embedded PHP payload spawns reverse shell (mkfifo + netcat) to 117.11.88.124:8080 — MITRE ATT&CK T1190 (Exploit Public-Facing Application) → 
+T1105 (Ingress Tool Transfer)
+
+Network Indicators
+
+Attacker IP: 117.11.88.124
+Compromised web server: shoporoma.com (Apache/2.4.52, Ubuntu)
+Uploaded web shell: image.jpg.php
+Reverse shell C2 port: 8080
+
+Techniques Identified
+
+Unrestricted file upload — double-extension bypass (image.jpg.php) defeating naive extension-based filtering
+Reverse shell — classic mkfifo/netcat one-liner for outbound interactive shell
+Tools Used: Wireshark, display filters (http.request.method, tcp.stream)
+Concepts Learned: HTTP upload vulnerability analysis, multipart form-data inspection, reverse shell payload deconstruction
+
+LAB LOCATION: https://cyberdefenders.org/blueteam-ctf-challenges/webstrike/
