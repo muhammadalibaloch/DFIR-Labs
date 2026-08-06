@@ -131,7 +131,7 @@ Every one of these requests returned a response with a `Content-Length` of only 
 
 **Escape attempt command: `docker run --rm -it -v /:/host ubuntu chroot /host`**
 
-<img width="716" height="356" alt="Q8" src="https://github.com/user-attachments/assets/97b8da12-10b9-4a2e-a4b3-fee90b839e86" />
+<img width="658" height="92" alt="SCR-20260805-pftq" src="https://github.com/user-attachments/assets/218df687-a961-4992-ad0d-a15f1f2ed3d2" />
 
 
 ## Summary
